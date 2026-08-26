@@ -1,44 +1,52 @@
-\ProvidesPackage{beamerunir}
+\ProvidesPackage{beamerthemeunir}
 
+% Required packages
 \RequirePackage{tikz}
 \usetikzlibrary{calc}
 \RequirePackage{xcolor}
 \RequirePackage{fontspec}
 \RequirePackage{etoolbox}
 
-\IfFontExistsTF{Arial}{
-  \setsansfont{Arial}
-}{
+% Font configuration
+\IfFontExistsTF{Arial}{%
+  \setsansfont{Arial}%
+}{%
   \setsansfont{Liberation Sans}%
 }
 \renewcommand{\familydefault}{\sfdefault}
-\setbeamertemplate{navigation symbols}{}
 
+% UNIR corporate color palette
 \definecolor{unirTeal}{HTML}{219BC3}
 \definecolor{unirTealDark}{HTML}{00566C}
 \definecolor{unirGray}{HTML}{C0C0C8}
 \definecolor{unirInk}{HTML}{595959}
 \definecolor{unirWhite}{HTML}{FFFFFF}
 
+% Helper macros
 \newcommand{\unirLogo}{logo.png}
 \newcommand{\unirPad}[1]{\ifnum#1<10 0\fi\number\numexpr#1\relax}
 
+% General Beamer theme settings
+\setbeamertemplate{navigation symbols}{}
 \setbeamersize{text margin left=0.093\paperwidth,text margin right=0.107\paperwidth}
 \setbeamercolor{normal text}{fg=unirGray}
 \setbeamercolor{structure}{fg=unirTeal}
 \setbeamerfont{normal text}{size={\fontsize{9.5}{13}\selectfont}}
 \setbeamertemplate{itemize items}[ball]
 \setbeamertemplate{enumerate items}[ball]
-\AtBeginDocument{
+
+% Paragraph settings and bold text style
+\AtBeginDocument{%
   \raggedright
-  \setlength{\parskip}{9pt}
-  \setlength{\parindent}{0pt}
-  \renewcommand{\textbf}[1]{{\bfseries\color{unirTealDark}#1}}
+  \setlength{\parskip}{9pt}%
+  \setlength{\parindent}{0pt}%
+  \renewcommand{\textbf}[1]{{\bfseries\color{unirTealDark}#1}}%
 }
 
-\setbeamertemplate{headline}{
+% Headline
+\setbeamertemplate{headline}{%
   \ifnum\value{section}>0
-    \edef\unir@sub{\insertsubsection}
+    \edef\unir@sub{\insertsubsection}%
     \begin{tikzpicture}[remember picture,overlay]
       \coordinate (O) at (current page.north west);
       \draw[unirTeal,line width=2.6pt]
@@ -48,20 +56,21 @@
         \node[anchor=base west,text=unirTealDark,font=\bfseries]
           at ($(O)+(0.055\paperwidth,-0.140\paperheight)$)
           {\fontsize{20}{20}\selectfont \insertsection};
-      }{
+      }{%
         \node[anchor=base west,text=unirTeal,font=\bfseries]
           at ($(O)+(0.055\paperwidth,-0.083\paperheight)$)
           {\fontsize{12}{12}\selectfont \insertsection};
         \node[anchor=base west,text=unirTealDark,font=\bfseries]
           at ($(O)+(0.055\paperwidth,-0.186\paperheight)$)
           {\fontsize{20}{20}\selectfont \insertsubsection};
-      }
-    \end{tikzpicture}
+      }%
+    \end{tikzpicture}%
     \vskip 1.83cm
   \fi
 }
 
-\setbeamertemplate{footline}{
+% Footline
+\setbeamertemplate{footline}{%
   \ifnum\value{section}>0
   \begin{tikzpicture}[remember picture,overlay]
     \node[anchor=south west,xshift=0.5cm,yshift=0.28cm] at (current page.south west)
@@ -73,11 +82,12 @@
       \node[anchor=base west,text=unirGray,inner sep=0pt]
         at (0.16,0.10) {\fontsize{9}{9}\selectfont \unirPad{\value{framenumber}}};
     \end{scope}
-  \end{tikzpicture}
+  \end{tikzpicture}%
   \fi
 }
 
-\setbeamertemplate{title page}{
+% Title page
+\setbeamertemplate{title page}{%
   \begin{tikzpicture}[remember picture,overlay]
     \coordinate (O) at (current page.south west);
     \fill[unirTeal] (current page.south west) rectangle (current page.north east);
@@ -100,15 +110,17 @@
       {\fontsize{15}{18}\selectfont \insertauthor};
     \node[anchor=south west,xshift=0.5cm,yshift=0.28cm] at (current page.south west)
       {\includegraphics[height=0.48cm]{\unirLogo}};
-  \end{tikzpicture}
+  \end{tikzpicture}%
 }
 
-\setbeamertemplate{section in toc}{
-  {\color{unirGray}\bfseries \unirPad{\inserttocsectionnumber}}\ --\hspace{5pt}
-  {\color{unirTealDark}\bfseries \inserttocsection}\par\vspace{0.055\paperheight}
+% Section entry style in the table of contents
+\setbeamertemplate{section in toc}{%
+  {\color{unirGray}\bfseries \unirPad{\inserttocsectionnumber}}\ --\hspace{5pt}%
+  {\color{unirTealDark}\bfseries \inserttocsection}\par\vspace{0.055\paperheight}%
 }
 
-\newcommand{\unir@indexbody}{
+% Full-screen table of contents slide
+\newcommand{\unir@indexbody}{%
   \begin{tikzpicture}[remember picture,overlay]
     \coordinate (O) at (current page.south west);
     \fill[unirWhite] (current page.south west) rectangle (current page.north east);
@@ -124,12 +136,13 @@
   \end{tikzpicture}%
 }
 
+% Redefine \tableofcontents to use the table of contents slide above
 \let\unir@origtoc\tableofcontents
-\renewcommand{\tableofcontents}[1][]{
+\renewcommand{\tableofcontents}[1][]{%
   \ifbeamer@inframe
     \unir@indexbody
   \else
-    \begin{frame}[plain]\unir@indexbody\end{frame}
+    \begin{frame}[plain]\unir@indexbody\end{frame}%
   \fi
 }
 
