@@ -1,0 +1,136 @@
+\ProvidesPackage{beamerunir}
+
+\RequirePackage{tikz}
+\usetikzlibrary{calc}
+\RequirePackage{xcolor}
+\RequirePackage{fontspec}
+\RequirePackage{etoolbox}
+
+\IfFontExistsTF{Arial}{
+  \setmainfont{Arial}
+}{
+  \setmainfont{Liberation Sans}
+}
+\usefonttheme{professionalfonts}
+\setbeamertemplate{navigation symbols}{}
+
+\definecolor{unirTeal}{HTML}{219BC3}
+\definecolor{unirTealDark}{HTML}{00566C}
+\definecolor{unirGray}{HTML}{C0C0C8}
+\definecolor{unirInk}{HTML}{595959}
+\definecolor{unirWhite}{HTML}{FFFFFF}
+
+\newcommand{\unirLogo}{logo.png}
+\newcommand{\unirPad}[1]{\ifnum#1<10 0\fi\number\numexpr#1\relax}
+
+\setbeamersize{text margin left=0.093\paperwidth,text margin right=0.107\paperwidth}
+\setbeamercolor{normal text}{fg=unirGray}
+\setbeamercolor{structure}{fg=unirTeal}
+\setbeamerfont{normal text}{size={\fontsize{9.5}{13}\selectfont}}
+\setbeamertemplate{itemize items}[ball]
+\setbeamertemplate{enumerate items}[ball]
+\AtBeginDocument{
+  \raggedright
+  \setlength{\parskip}{9pt}
+  \setlength{\parindent}{0pt}
+  \renewcommand{\textbf}[1]{{\bfseries\color{unirTealDark}#1}}
+}
+
+\setbeamertemplate{headline}{
+  \ifnum\value{section}>0
+    \edef\unir@sub{\insertsubsection}
+    \begin{tikzpicture}[remember picture,overlay]
+      \coordinate (O) at (current page.north west);
+      \draw[unirTeal,line width=2.6pt]
+        ($(O)+(0.037\paperwidth,-0.050\paperheight)$) --
+        ($(O)+(0.037\paperwidth,-0.186\paperheight)$);
+      \ifdefempty{\unir@sub}{%
+        \node[anchor=base west,text=unirTealDark,font=\bfseries]
+          at ($(O)+(0.055\paperwidth,-0.140\paperheight)$)
+          {\fontsize{20}{20}\selectfont \insertsection};
+      }{
+        \node[anchor=base west,text=unirTeal,font=\bfseries]
+          at ($(O)+(0.055\paperwidth,-0.083\paperheight)$)
+          {\fontsize{12}{12}\selectfont \insertsection};
+        \node[anchor=base west,text=unirTealDark,font=\bfseries]
+          at ($(O)+(0.055\paperwidth,-0.186\paperheight)$)
+          {\fontsize{20}{20}\selectfont \insertsubsection};
+      }
+    \end{tikzpicture}
+    \vskip 1.83cm
+  \fi
+}
+
+\setbeamertemplate{footline}{
+  \ifnum\value{section}>0
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south west,xshift=0.5cm,yshift=0.28cm] at (current page.south west)
+      {\includegraphics[height=0.48cm]{\unirLogo}};
+    \begin{scope}[shift={($(current page.south east)+(-1.05cm,0.28cm)$)}]
+      \draw[unirTeal,line width=1.3pt] (0,0.06) -- (0,0.60);
+      \node[anchor=base west,text=unirGray,inner sep=0pt]
+        at (0.16,0.44) {\fontsize{9}{9}\selectfont p\'ag.};
+      \node[anchor=base west,text=unirGray,inner sep=0pt]
+        at (0.16,0.10) {\fontsize{9}{9}\selectfont \unirPad{\value{framenumber}}};
+    \end{scope}
+  \end{tikzpicture}
+  \fi
+}
+
+\setbeamertemplate{title page}{
+  \begin{tikzpicture}[remember picture,overlay]
+    \coordinate (O) at (current page.south west);
+    \fill[unirTeal] (current page.south west) rectangle (current page.north east);
+    \fill[unirWhite] (current page.south west) rectangle
+      ($(O)+(\paperwidth,0.124\paperheight)$);
+    \draw[unirWhite,line width=1pt]
+      ($(O)+(0.255\paperwidth,0.778\paperheight)$) --
+      ($(O)+(0.205\paperwidth,0.778\paperheight)$) --
+      ($(O)+(0.205\paperwidth,0.700\paperheight)$);
+    \draw[unirWhite,line width=1pt]
+      ($(O)+(0.745\paperwidth,0.372\paperheight)$) --
+      ($(O)+(0.795\paperwidth,0.372\paperheight)$) --
+      ($(O)+(0.795\paperwidth,0.450\paperheight)$);
+    \node[text=unirWhite,align=center,text width=0.46\paperwidth]
+      at ($(O)+(0.5\paperwidth,0.585\paperheight)$)
+      {\bfseries\fontsize{30}{44}\selectfont
+       \hyphenpenalty=10000\exhyphenpenalty=10000 \inserttitle};
+    \node[text=unirWhite,align=center,text width=0.7\paperwidth]
+      at ($(O)+(0.5\paperwidth,0.310\paperheight)$)
+      {\fontsize{15}{18}\selectfont \insertauthor};
+    \node[anchor=south west,xshift=0.5cm,yshift=0.28cm] at (current page.south west)
+      {\includegraphics[height=0.48cm]{\unirLogo}};
+  \end{tikzpicture}
+}
+
+\setbeamertemplate{section in toc}{
+  {\color{unirGray}\bfseries \unirPad{\inserttocsectionnumber}}\ --\hspace{5pt}
+  {\color{unirTealDark}\bfseries \inserttocsection}\par\vspace{0.055\paperheight}
+}
+
+\newcommand{\unir@indexbody}{
+  \begin{tikzpicture}[remember picture,overlay]
+    \coordinate (O) at (current page.south west);
+    \fill[unirWhite] (current page.south west) rectangle (current page.north east);
+    \fill[unirTeal]  (current page.south west) rectangle
+      ($(current page.north west)+(0.5\paperwidth,0)$);
+    \node[text=unirWhite,align=center]
+      at ($(O)+(0.25\paperwidth,0.5\paperheight)$)
+      {\fontsize{40}{40}\selectfont \'INDICE};
+    \node[anchor=west,text width=0.42\paperwidth]
+      at ($(O)+(0.55\paperwidth,0.5\paperheight)$)
+      {\fontsize{14}{14}\selectfont
+       \unir@origtoc[sectionstyle=show,subsectionstyle=hide]};
+  \end{tikzpicture}%
+}
+
+\let\unir@origtoc\tableofcontents
+\renewcommand{\tableofcontents}[1][]{
+  \ifbeamer@inframe
+    \unir@indexbody
+  \else
+    \begin{frame}[plain]\unir@indexbody\end{frame}
+  \fi
+}
+
+\endinput
