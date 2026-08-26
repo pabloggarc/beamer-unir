@@ -7,11 +7,11 @@
 \RequirePackage{etoolbox}
 
 \IfFontExistsTF{Arial}{
-  \setmainfont{Arial}
+  \setsansfont{Arial}
 }{
-  \setmainfont{Liberation Sans}
+  \setsansfont{Liberation Sans}%
 }
-\usefonttheme{professionalfonts}
+\renewcommand{\familydefault}{\sfdefault}
 \setbeamertemplate{navigation symbols}{}
 
 \definecolor{unirTeal}{HTML}{219BC3}
