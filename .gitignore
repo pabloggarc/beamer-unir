@@ -27,6 +27,7 @@
 *.xdy
 *.fdb_latexmk
 *.fls
+*.xdv
 build/
 _minted*/
 *.pyg
