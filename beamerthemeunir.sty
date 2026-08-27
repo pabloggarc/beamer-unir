@@ -101,10 +101,12 @@
       ($(O)+(0.745\paperwidth,0.372\paperheight)$) --
       ($(O)+(0.795\paperwidth,0.372\paperheight)$) --
       ($(O)+(0.795\paperwidth,0.450\paperheight)$);
-    \node[text=unirWhite,align=center,text width=0.46\paperwidth]
+    \node[text=unirWhite]
       at ($(O)+(0.5\paperwidth,0.585\paperheight)$)
-      {\bfseries\fontsize{30}{44}\selectfont
-       \hyphenpenalty=10000\exhyphenpenalty=10000 \inserttitle};
+      {\begin{minipage}{0.46\paperwidth}\centering
+       \bfseries\fontsize{30}{38}\selectfont
+       \hyphenpenalty=10000\exhyphenpenalty=10000 \inserttitle
+       \end{minipage}};
     \node[text=unirWhite,align=center,text width=0.7\paperwidth]
       at ($(O)+(0.5\paperwidth,0.310\paperheight)$)
       {\fontsize{15}{18}\selectfont \insertauthor};
