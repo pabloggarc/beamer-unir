@@ -87,7 +87,43 @@
 }
 
 % Title page
+\newsavebox{\unir@titlebox}
+\newlength{\unir@titlewidth}
+\newlength{\unir@titlemaxheight}
+\setlength{\unir@titlewidth}{0.46\paperwidth}
+\setlength{\unir@titlemaxheight}{0.32\paperheight}
+\newcount\unir@titlefs
+\newcount\unir@titlebl
+
+\newcommand{\unir@settitlebox}{%
+  \sbox{\unir@titlebox}{%
+    \begin{minipage}{\unir@titlewidth}\centering
+      \color{unirWhite}\bfseries\fontsize{\the\unir@titlefs}{\the\unir@titlebl}\selectfont
+      \hyphenpenalty=10000\exhyphenpenalty=10000 \inserttitle
+    \end{minipage}%
+  }%
+}
+
+\newcommand{\unir@shrinktitleloop}{%
+  \ifdim\dimexpr\ht\unir@titlebox+\dp\unir@titlebox\relax>\unir@titlemaxheight
+    \ifnum\unir@titlefs>12
+      \advance\unir@titlefs by -1
+      \advance\unir@titlebl by -1
+      \unir@settitlebox
+      \unir@shrinktitleloop
+    \fi
+  \fi
+}
+
+\newcommand{\unir@fittitle}{%
+  \unir@titlefs=30
+  \unir@titlebl=38
+  \unir@settitlebox
+  \unir@shrinktitleloop
+}
+
 \setbeamertemplate{title page}{%
+  \unir@fittitle
   \begin{tikzpicture}[remember picture,overlay]
     \coordinate (O) at (current page.south west);
     \fill[unirTeal] (current page.south west) rectangle (current page.north east);
@@ -103,10 +139,7 @@
       ($(O)+(0.795\paperwidth,0.450\paperheight)$);
     \node[text=unirWhite]
       at ($(O)+(0.5\paperwidth,0.585\paperheight)$)
-      {\begin{minipage}{0.46\paperwidth}\centering
-       \bfseries\fontsize{30}{38}\selectfont
-       \hyphenpenalty=10000\exhyphenpenalty=10000 \inserttitle
-       \end{minipage}};
+      {\usebox{\unir@titlebox}};
     \node[text=unirWhite,align=center,text width=0.7\paperwidth]
       at ($(O)+(0.5\paperwidth,0.310\paperheight)$)
       {\fontsize{15}{18}\selectfont \insertauthor};
