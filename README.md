@@ -51,6 +51,7 @@ Tema de Beamer para las diapositivas de defensa de TFX en la UNIR. Este tema es 
 ```
 
 - La cabecera con el título de sección/subsección solo aparece a partir de que se declara al menos un `\section{...}` (por eso no se ve en la portada ni antes de la primera sección).
+- `\closingslide` genera la diapositiva de cierre a pantalla completa ("muchas gracias.").
 - `\tableofcontents` está redefinido para generar una diapositiva de índice a pantalla completa en lugar del listado estándar de Beamer.
 
 ## Archivos del repositorio
