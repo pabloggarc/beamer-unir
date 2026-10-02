@@ -181,4 +181,29 @@
   \fi
 }
 
+% Closing slide
+\newcommand{\unir@closingbody}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \coordinate (O) at (current page.south west);
+    \fill[unirWhite] (current page.south west) rectangle (current page.north east);
+    \draw[unirTeal,line width=1pt]
+      ($(O)+(0.325\paperwidth,0.568\paperheight)$) --
+      ($(O)+(0.287\paperwidth,0.568\paperheight)$) --
+      ($(O)+(0.287\paperwidth,0.498\paperheight)$);
+    \draw[unirTeal,line width=1pt]
+      ($(O)+(0.670\paperwidth,0.432\paperheight)$) --
+      ($(O)+(0.709\paperwidth,0.432\paperheight)$) --
+      ($(O)+(0.709\paperwidth,0.502\paperheight)$);
+    \node[align=center]
+      at ($(O)+(0.5\paperwidth,0.495\paperheight)$)
+      {\fontsize{21}{21}\selectfont {\color{unirTeal}muchas} {\color{unirTealDark}gracias.}};
+    \node[anchor=south west,xshift=0.5cm,yshift=0.28cm] at (current page.south west)
+      {\includegraphics[height=0.48cm]{\unirLogo}};
+  \end{tikzpicture}%
+}
+
+\newcommand{\closingslide}{%
+  \begin{frame}[plain]\unir@closingbody\end{frame}%
+}
+
 \endinput
